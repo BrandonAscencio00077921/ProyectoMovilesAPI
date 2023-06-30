@@ -16,10 +16,15 @@ app.get('/', (req, res)=>{
 
 //Ver usuarios
 app.get('/users', (req, res)=>{
-    res.json(users)
+    userSchema
+    .find()
+    res.json(data)
 })
 app.get('/users/:id', (req, res)=>{
-    res.json(users)
+    const { id } = req.params;
+    userSchema
+    .findById(id)
+    res.json(data)
 })
 
 //Añadir usuarios
@@ -27,7 +32,8 @@ app.post('/users', (req, res)=>{
     const user = userSchema(req.body);
     user
     .save()
-    res.send("Usuario agregado")
+    .then((data)=>res.send("Usuario agregado"))
+    .catch((error)=>res.json({message: error}));  
 })
 
 //Conexion a la base
